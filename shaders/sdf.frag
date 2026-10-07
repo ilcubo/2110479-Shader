@@ -24,22 +24,28 @@ vec2 ball_center() {
 
 // TODO(TASK 3a)
 float sdf_box(vec2 p, vec2 hs) {
-  return 1.0;
+  vec2 d = abs(p) - hs;
+  return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
 }
 
 // TODO(TASK 3b)
 float sdf_rounded_box(vec2 p, vec2 hs, float r) {
-  return 1.0;
+  vec2 d = abs(p) - hs + r;
+  return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0) - r;
 }
 
 // TODO(TASK 3c)
 float op_smooth_union(float d1, float d2, float k) {
-  return op_union(d1, d2);
+  float h = clamp(0.5 + 0.5 * (d2 - d1) / k, 0.0, 1.0);
+  return mix(d2, d1, h) - k * h * (1.0 - h);
 }
 
 // TODO(TASK 3d)
 float scene(vec2 p) {
-  return 1.0;
+  float box_sdf = sdf_rounded_box(p - vec2(-0.35, 0), vec2(0.40, 0.25), 0.08);
+  float circle_sdf = sdf_circle(p - ball_center(), 0.30);
+  float d = op_smooth_union(box_sdf, circle_sdf, 0.2);
+  return max(-sdf_circle(p - vec2(-0.35, 0), 0.12), d);
 }
 
 void main() {
@@ -50,6 +56,8 @@ void main() {
   vec3 col = vec3(0.0);
   if (u.mode == 0u) {
     // TODO(TASK 3e)
+    float edge = smoothstep(-w, w, d);
+    col = mix(vec3(0.9, 0.5, 0.2), vec3(0.0), edge);
   }
   else if (u.mode == 1u) col = contours(d);
   else if (u.mode == 2u) col = vec3(clamp(d * 0.5 + 0.5, 0.0, 1.0));

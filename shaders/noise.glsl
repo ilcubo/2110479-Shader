@@ -9,7 +9,6 @@ uint pcg(uint v) {
 
 float hash(uvec2 p) { return float(pcg(p.x ^ pcg(p.y))) / 4294967296.0; }
 
-// TODO(TASK 2a)
 float value_noise(vec2 p) {
   uvec2 cell = uvec2(floor(p) + 1000);
   vec2 t = fract(p);
@@ -26,7 +25,6 @@ float value_noise(vec2 p) {
   return result;
 }
 
-// TODO(TASK 2b)
 float fbm(vec2 p, uint octaves) {
   uint i = 0;
   float result = 0;

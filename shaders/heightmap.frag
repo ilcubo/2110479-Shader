@@ -9,7 +9,6 @@ layout(location = 2) in float inHeight;
 
 layout(location = 0) out vec4 outColor;
 
-// TODO(TASK 4c)
 vec3 bands(float h) {
   vec3 col = mix(vec3(0.02, 0.08, 0.30), vec3(0.10, 0.45, 0.65), smoothstep(0.20, 0.35, h));
   col = mix(col, vec3(0.80, 0.74, 0.50), smoothstep(0.35, 0.40, h));
@@ -24,7 +23,6 @@ void main() {
 
   vec3 col = vec3(0.5);
   if (u.mode == 0u) {
-    // TODO(TASK 4c)
     vec3 L = normalize(vec3(0.5, 1.0, 0.3));
     col = bands(inHeight) * (0.15 + 0.85 * max(dot(n, L), 0.0));
   }

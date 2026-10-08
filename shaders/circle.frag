@@ -6,17 +6,13 @@
 layout(location = 0) out vec4 outColor;
 
 void main() {
-  // TODO(TASK 1a)
   vec2 uv = gl_FragCoord.xy / u.resolution.xy;
 
-  // TODO(TASK 1b)
   vec2 p = (2 * uv - 1.0) * u.resolution.xy / u.resolution.y;
 
-  // TODO(TASK 1c)
   float d = length(p) - 0.5;
 
-  // TODO(TASK 1d)
-  vec3 col = (0.5 + 0.5 * cos(u.time + d * 10.0 + vec3(0.0, 2.0, 4.0))) * smoothstep(0.02, 0.02, -d);
+  vec3 col = (0.5 + 0.5 * cos(u.time + d * 10.0 + vec3(0.0, 2.0, 4.0))) * smoothstep(0.02, -0.02, d);
 
   if      (u.mode == 1u) col = vec3(uv, 0.0);
   else if (u.mode == 2u) col = vec3(d * 0.5 + 0.5);
